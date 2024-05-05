@@ -1,0 +1,56 @@
+cabal-version:      3.0
+name:               ttf-reader
+version:            0.1.0.0
+synopsis:           A decoder for TrueType (.ttf) font files.
+description:        ttf-reader is a pure Haskell library to read
+                    kerning information from TrueType (.ttf) font files.
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Vladislav Zavialov, Andrei Borzenkov
+maintainer:         Vladislav Zavialov <vlad.z.4096@gmail.com>
+category:           Codec
+build-type:         Simple
+
+common language
+  default-language: GHC2021
+  default-extensions:
+    BlockArguments
+    DerivingStrategies
+    DuplicateRecordFields
+    NoFieldSelectors
+    OverloadedRecordDot
+    PatternSynonyms
+    PolyKinds
+    StrictData
+    TypeFamilies
+    ViewPatterns
+    ImplicitParams
+    UnboxedTuples
+    DataKinds
+
+library
+  import: language
+  exposed-modules:
+    Codec.TTF.Reader
+  other-modules:
+    Codec.TTF.Reader.Common
+    Codec.TTF.Reader.FontFormat
+    Codec.TTF.Reader.TableDirectory
+    Codec.TTF.Reader.CMap
+    Codec.TTF.Reader.MaxP
+    Codec.TTF.Reader.Kern
+    Codec.TTF.Reader.GPOS
+  other-modules:
+    Codec.TTF.Reader.Schema.TableDirectory
+    Codec.TTF.Reader.Schema.CMap
+    Codec.TTF.Reader.Schema.MaxP
+    Codec.TTF.Reader.Schema.Kern
+    Codec.TTF.Reader.Schema.GPOS
+  build-depends:
+    base >=4.17 && <5,
+    bytestring >= 0.11.5 && < 0.12,
+    deepseq >= 1.4.8 && < 1.5,
+    containers >= 0.6.7 && < 0.7,
+    primitive >= 0.9.0 && < 0.10,
+  hs-source-dirs:   src
+  ghc-options: -Wall -funbox-strict-fields
