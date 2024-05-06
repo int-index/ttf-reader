@@ -7,6 +7,7 @@ module Codec.TTF.Reader
     module Codec.TTF.Reader.MaxP,
     module Codec.TTF.Reader.Kern,
     module Codec.TTF.Reader.GPOS,
+    module Codec.TTF.Reader.Head,
   ) where
 
 import Codec.TTF.Reader.Common
@@ -16,3 +17,4 @@ import Codec.TTF.Reader.CMap
 import Codec.TTF.Reader.MaxP
 import Codec.TTF.Reader.Kern
 import Codec.TTF.Reader.GPOS
+import Codec.TTF.Reader.Head

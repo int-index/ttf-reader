@@ -14,6 +14,8 @@ module Codec.TTF.Reader.Common
     Word16,
     Word32,
     Int16,
+    Int32,
+    Int64,
     TaggedBytes(..),
     untagBytes,
     StaticSize(..),
@@ -29,7 +31,7 @@ import Data.Kind (Type, Constraint)
 import GHC.TypeLits (Symbol)
 import Control.Exception (Exception, throw)
 import Control.Monad (when)
-import Data.Int (Int16)
+import Data.Int (Int16, Int32, Int64)
 import Data.Word (Word16, Word32)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
