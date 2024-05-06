@@ -205,15 +205,41 @@ gposSchema =
     ]
   ]
 
+headSchema :: Schema Int
+headSchema =
+  mkSchema "Head" [
+    "Head" := [
+      "majorVersion"       :# uint16,
+      "minorVersion"       :# uint16,
+      "fontRevision"       :# fixed,
+      "checksumAdjustment" :# uint32,
+      "magicNumber"        :# uint32,
+      "flags"              :# uint16,
+      "unitsPerEm"         :# uint16,
+      "created"            :# longdatetime,
+      "modified"           :# longdatetime,
+      "xMin"               :# int16,
+      "yMin"               :# int16,
+      "xMax"               :# int16,
+      "yMax"               :# int16,
+      "macStyle"           :# uint16,
+      "lowestRecPPEM"      :# uint16,
+      "fontDirectionHint"  :# int16,
+      "indexToLocFormat"   :# int16,
+      "glyphDataFormat"    :# int16
+    ]
+  ]
 --------------------------------------------------------
 
-data TyInfo = TyInfo { tyName :: String, tySize :: Int }
+data TyInfo = TyInfo { tyName :: String, tySize :: Int, notableInfo :: String }
   deriving Show
 
-uint16, uint32, int16 :: TyInfo
-uint16 = TyInfo "Word16" 2
-uint32 = TyInfo "Word32" 4
-int16  = TyInfo "Int16"  2
+uint16, uint32, int16, fixed, longdatetime :: TyInfo
+uint16       = TyInfo "Word16" 2 ""
+uint32       = TyInfo "Word32" 4 ""
+int16        = TyInfo "Int16"  2 ""
+fixed        = TyInfo "Int32"  4 "fixed-point number (16.16)"
+longdatetime = TyInfo "Int64"  8 "Date and time represented in number of seconds since 12:00 midnight, January 1, 1904, UTC."
 
 data FieldInfo a = MkFieldInfo { fieldName :: String, fieldTy :: TyInfo, fieldOffset :: a }
 
@@ -254,12 +280,13 @@ pprRecInfo MkRecInfo{recName, recFields, recSize} s =
 
 pprFieldInfo :: String -> FieldInfo Int -> ShowS
 pprFieldInfo recName MkFieldInfo{fieldName, fieldTy, fieldOffset} s =
-  "\ninstance StaticOffset " ++ show fieldName
-    ++ " " ++ recName
-    ++ " " ++ tyName fieldTy
-    ++ " where offsetTo = "
-    ++ show fieldOffset
-    ++ s
+  addComment (notableInfo fieldTy) ++
+  unwords [
+    "\ninstance StaticOffset", show fieldName, recName, tyName fieldTy,
+    "where offsetTo =", show fieldOffset
+  ] ++ s
+  where addComment "" = ""
+        addComment info = "\n-- | " ++ info
 
 writeSchema :: Schema Int -> IO ()
 writeSchema schema@(MkSchema name _) =
@@ -274,3 +301,4 @@ main = do
   writeSchema maxpSchema
   writeSchema kernSchema
   writeSchema gposSchema
+  writeSchema headSchema

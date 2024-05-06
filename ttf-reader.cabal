@@ -40,12 +40,14 @@ library
     Codec.TTF.Reader.MaxP
     Codec.TTF.Reader.Kern
     Codec.TTF.Reader.GPOS
+    Codec.TTF.Reader.Head
   other-modules:
     Codec.TTF.Reader.Schema.TableDirectory
     Codec.TTF.Reader.Schema.CMap
     Codec.TTF.Reader.Schema.MaxP
     Codec.TTF.Reader.Schema.Kern
     Codec.TTF.Reader.Schema.GPOS
+    Codec.TTF.Reader.Schema.Head
   build-depends:
     base >=4.17 && <5,
     bytestring >= 0.11.5 && < 0.12,
